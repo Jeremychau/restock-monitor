@@ -7,7 +7,7 @@ import requests
 TG_TOKEN = os.environ["TG_TOKEN"]
 CHAT_ID = os.environ["TG_CHAT_ID"]
 PRODUCT_URL = f"https://shop.weverse.io/api/wvs/display/api/v1/sales/recommended-sales?displayPlatform=WEB&saleId=54196"
-PRODUCT_ID = 54197
+PRODUCT_ID = 54189
 
 WEVERSESHOP_HEADERS = {
     "accept": "*/*",
@@ -26,7 +26,6 @@ WEVERSESHOP_HEADERS = {
     "x-weverse-usercountry": "HK",
 }
 
-
 def send_tg(msg: str) -> None:
     requests.post(
         f"https://api.telegram.org/bot{TG_TOKEN}/sendMessage",
@@ -40,7 +39,6 @@ def get_product() -> dict | None:
         return None
     return r.json()
 
-
 def check_restock() -> None:
     data = get_product()
     if not data:
@@ -49,6 +47,7 @@ def check_restock() -> None:
     target_id = int(PRODUCT_ID)
     for item in sales:
         if item.get("saleId") != target_id:
+            send_tg(f"Product {target_id} is not available")
             continue
         if item.get("status") == "SALE":
             name = item.get("name", "")

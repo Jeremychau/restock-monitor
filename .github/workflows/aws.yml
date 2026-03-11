@@ -24,7 +24,7 @@ jobs:
       - name: Deploy
         run: |
             ssh -i ~/.ssh/lightsail_key ${{ secrets.LIGHTSAIL_USER }}@${{ secrets.LIGHTSAIL_HOST }} << 'EOF'
-              cd /home/ubuntu/myapp
+              cd /home/ubuntu/restock-monitor
               git pull origin main
               /usr/bin/python3 -m pip install -r requirements.txt
               sudo systemctl restart my-python-app
