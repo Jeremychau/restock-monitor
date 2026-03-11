@@ -53,10 +53,8 @@ def check_restock() -> None:
         return
 
 
-if __name__ == "__main__":
+while True:
     check_restock()
-    # while True:
-    #     check_restock()
-    #     time.sleep(60)
+    time.sleep(600)
 
 
