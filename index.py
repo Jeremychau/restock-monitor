@@ -1,5 +1,6 @@
 import requests
 import os
+import time
 
 TG_TOKEN = os.environ["TG_TOKEN"]
 CHAT_ID = os.environ["TG_CHAT_ID"]
