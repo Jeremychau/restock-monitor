@@ -47,11 +47,11 @@ def check_restock() -> None:
     target_id = int(PRODUCT_ID)
     for item in sales:
         if item.get("saleId") != target_id:
-            send_tg(f"Product {target_id} is not available")
             continue
         if item.get("status") == "SALE":
             name = item.get("name", "")
             send_tg(f"{name} 有貨")
         return
+    send_tg(f"Product {target_id} is not available")
 
 check_restock()
