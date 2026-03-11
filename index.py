@@ -8,7 +8,7 @@ CHAT_ID = os.environ["TG_CHAT_ID"]
 
 def send_tg(msg):
     requests.post(
-        f"https://api.telegram.org/botTOKEN/sendMessage",
+        f"https://api.telegram.org/bot{TG_TOKEN}/sendMessage",
         data={"chat_id":CHAT_ID,"text":msg}
     )
 
