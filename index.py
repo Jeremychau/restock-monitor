@@ -1,8 +1,11 @@
-import requests
 import os
+import time
+from typing import Optional
 
-TG_TOKEN = os.environ["TG_TOKEN"]
-CHAT_ID = os.environ["TG_CHAT_ID"]
+import requests
+
+TG_TOKEN = -1003737095461
+CHAT_ID = f"8601645659:AAGf7V6nABFkIr6rxHAgUccpPYN0nB4UToY"
 PRODUCT_URL = f"https://shop.weverse.io/api/wvs/display/api/v1/sales/recommended-sales?displayPlatform=WEB&saleId=54196"
 PRODUCT_ID = 54197
 
@@ -52,11 +55,4 @@ def check_restock() -> None:
             send_tg(f"{name} 有貨")
         return
 
-
-if __name__ == "__main__":
-    check_restock()
-    # while True:
-    #     check_restock()
-    #     time.sleep(60)
-
-
+check_restock()
