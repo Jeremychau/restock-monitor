@@ -9,7 +9,7 @@ CHAT_ID = os.environ["TG_CHAT_ID"]
 def send_tg(msg):
     requests.post(
         f"https://api.telegram.org/botTOKEN/sendMessage",
-        data={"chat_id":CHATID,"text":msg}
+        data={"chat_id":CHAT_ID,"text":msg}
     )
 
 send_tg('hihi')
