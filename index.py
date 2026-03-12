@@ -1,11 +1,26 @@
 import os
-import time
-from typing import Optional
 
 import requests
 
-TG_TOKEN = os.environ["TG_TOKEN"]
-CHAT_ID = os.environ["TG_CHAT_ID"]
+def load_env(path: str) -> dict:
+    env = dict()
+    env_dir = os.path.dirname(os.path.abspath(path))
+    env_file = os.path.join(env_dir, "app.env")
+    if not os.path.isfile(env_file):
+        return env
+    with open(env_file, "r") as f:
+        for line in f:
+            line = line.strip()
+            if not line or line.startswith("#"):
+                continue
+            if "=" in line:
+                key, _, value = line.partition("=")
+                env[key.strip()] = value.strip()
+    return env
+
+_env = load_env(__file__)
+TG_TOKEN = _env.get("TG_TOKEN", "")
+CHAT_ID = _env.get("TG_CHAT_ID", "")
 PRODUCT_URL = f"https://shop.weverse.io/api/wvs/display/api/v1/sales/recommended-sales?displayPlatform=WEB&saleId=54196"
 PRODUCT_ID = 54189
 
@@ -45,13 +60,16 @@ def check_restock() -> None:
         return
     sales = data.get("recommendationsSales") or []
     target_id = int(PRODUCT_ID)
+    found = False
     for item in sales:
         if item.get("saleId") != target_id:
             continue
+        found = True
         if item.get("status") == "SALE":
             name = item.get("name", "")
             send_tg(f"{name} 有貨")
         return
-    send_tg(f"Product {target_id} is not available")
+    if not found:
+        send_tg(f"Product {target_id} is not available")
 
 check_restock()
