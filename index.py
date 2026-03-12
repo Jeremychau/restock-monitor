@@ -51,6 +51,7 @@ def send_tg(msg: str) -> None:
 def get_product() -> dict | None:
     r = requests.get(PRODUCT_URL, headers=WEVERSESHOP_HEADERS)
     if not r.ok:
+        send_tg(f"get product failed")
         return None
     return r.json()
 
@@ -60,16 +61,12 @@ def check_restock() -> None:
         return
     sales = data.get("recommendationsSales") or []
     target_id = int(PRODUCT_ID)
-    found = False
     for item in sales:
         if item.get("saleId") != target_id:
             continue
-        found = True
         if item.get("status") == "SALE":
             name = item.get("name", "")
             send_tg(f"{name} 有貨")
         return
-    if not found:
-        send_tg(f"Product {target_id} is not available")
 
 check_restock()
